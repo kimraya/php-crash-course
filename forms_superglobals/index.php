@@ -1,8 +1,17 @@
 <?php
 
-echo '<pre>';
-var_dump($_SERVER);
-echo '<pre>';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // INPUT_POST: retrieves the value from a form submission
+    // "name": the form field name.
+    // FILTER_SANITIZE_SPECIAL_CHARS to prevent XSS attacks.
+    $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS);
+    $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+    $phone = filter_input(INPUT_POST, "phone", FILTER_SANITIZE_NUMBER_INT);
+
+    if ($name && $email && $phone) {
+        
+    }
+}
 
 ?>
 
