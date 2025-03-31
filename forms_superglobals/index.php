@@ -1,5 +1,9 @@
 <?php
 
+echo '<pre>';
+var_dump($_FILES);
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // INPUT_POST: retrieves the value from a form submission
     // "name": the form field name.
@@ -9,7 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = filter_input(INPUT_POST, "phone", FILTER_SANITIZE_NUMBER_INT);
 
     if ($name && $email && $phone) {
-        
+        echo "Contact added: $name ($email, $phone)";
+    } else {
+        echo "Invalid input";
     }
 }
 
@@ -26,15 +32,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 
-    <form action="" method="get">
+    <form action="" method="POST" enctype="multipart/form-data">
         <label>Name: </label>
-        <input type="text" name="name" required>
+        <input type="text" name="name">
 
         <label>Email: </label>
-        <input type="email" name="email" required>
+        <input type="email" name="email">
 
         <label>Phone: </label>
-        <input type="text" name="phone" required>
+        <input type="text" name="phone">
+
+        <label>Contact Image: </label>
+        <input type="file" name="image" accept="image/" required>
 
         <button type="submit">Add Contact</button>
     </form>
