@@ -1,24 +1,6 @@
 <?php
-// Function to sanitized and validate input
-function get_filter_input($field, $filter, $error_message)
-{
-    $value = filter_input(INPUT_POST, $field, $filter);
-    return $value ?: $error_message;
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate name (Required, Special chars sanitized)
-    $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_SPECIAL_CHARS);
-    $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-    $phone = filter_input(INPUT_POST, "phone", FILTER_SANITIZE_NUMBER_INT);
-
-    if ($name && $email && $phone) {
-        echo "Contact added: $name ($email, $phone)";
-    } else {
-        echo "Invalid input";
-    }
-}
-
+$contactsFile = "contacts.json";
+$contacts = file_exists($contactsFile) ? json_decode(file_get_contents($contactsFile), true) : [];
 ?>
 
 <!DOCTYPE html>
@@ -31,23 +13,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+    <a href="create.php">Create New Contact</a>
 
-    <form action="" method="POST" enctype="multipart/form-data">
-        <label>Name: </label>
-        <input type="text" name="name">
-
-        <label>Email: </label>
-        <input type="email" name="email">
-
-        <label>Phone: </label>
-        <input type="text" name="phone">
-
-        <label>Contact Image: </label>
-        <input type="file" name="image" accept="image/" required>
-
-        <button type="submit">Add Contact</button>
-    </form>
-
+    <ul>
+        <!-- Displays the contact information -->
+        <?php foreach ($contacts as $contact): ?>
+            <li> 
+                <img src="<?php echo $contact['image']; ?>" height="50">
+                <?php echo "{$contact['name']} - {$contact['email']} - {$contact['phone']}"; ?>
+                <a href="delete.php?id=<?php echo $contact['id'] ?>">
+                    DELETE
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 </body>
 
 </html>
