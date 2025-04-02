@@ -3,7 +3,7 @@
 $uploadsDir = 'uploads/';
 $contactsFile = 'contacts.json';
 
-// Function to sanitized and validate input
+// Helper function to sanitized and validate input
 function get_filter_input($field, $filter, $error_message)
 {
     $value = filter_input(INPUT_POST, $field, $filter);
